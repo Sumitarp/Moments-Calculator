@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Moments Remaining</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <meta
+        name="description"
+        content="A simple calculator to visualize how much time you may have remaining with the people you love."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+<!-- Ambient Music -->
+<div class="music-player">
+
+    <button id="musicToggle" class="music-toggle" aria-label="Play ambient music">
+        <span class="music-icon">♪</span>
+        <span id="musicText">Play reflection music</span>
+    </button>
+
+    <div class="music-bars" id="musicBars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <audio id="ambientMusic" loop preload="none">
+        <source src="ambient.mp3" type="audio/mpeg">
+    </audio>
+
+</div>
+
+        <!-- Header -->
+        <header class="hero">
+            <div class="eyebrow">TIME IS FINITE</div>
+
+            <h1>How many moments<br>do you have left?</h1>
+
+            <p>
+                Turn the time you have with someone you love
+                into a number you can actually see.
+            </p>
+        </header>
+
+
+        <!-- Calculator -->
+        <section class="calculator">
+
+            <div class="section-heading">
+                <span>01</span>
+                <h2>Tell me about them</h2>
+            </div>
+
+
+            <!-- Person -->
+            <div class="form-grid">
+
+                <div class="field full">
+                    <label for="personName">Their name</label>
+
+                    <input
+                        type="text"
+                        id="personName"
+                        placeholder="e.g. Mom, Dad, Aarav..."
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="relationship">Relationship</label>
+
+                    <select id="relationship">
+                        <option value="child">Child</option>
+                        <option value="parent">Parent</option>
+                        <option value="sibling">Sibling</option>
+                        <option value="friend">Friend</option>
+                        <option value="partner">Partner</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+
+                <div class="field">
+                    <label for="currentAge">Their current age</label>
+
+                    <input
+                        type="number"
+                        id="currentAge"
+                        min="0"
+                        max="120"
+                        placeholder="25"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- Relationship window -->
+            <div class="section-heading second">
+                <span>02</span>
+                <h2>Define the window</h2>
+            </div>
+
+            <div class="info-box">
+                <div class="info-icon">i</div>
+
+                <p>
+                    This isn't a prediction of how long someone will live.
+                    Choose the age or point in time you want to use for
+                    this calculation.
+                </p>
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="horizonAge">
+                        Calculate until their age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="horizonAge"
+                        min="1"
+                        max="120"
+                        value="80"
+                    >
+                </div>
+
+
+                <div class="field">
+                    <label for="frequency">
+                        How often do you see them?
+                    </label>
+
+                    <select id="frequency">
+                        <option value="365">Every day</option>
+                        <option value="52">Every week</option>
+                        <option value="26">Every 2 weeks</option>
+                        <option value="12" selected>Every month</option>
+                        <option value="6">Every 2 months</option>
+                        <option value="4">Every 3 months</option>
+                        <option value="2">Twice a year</option>
+                        <option value="1">Once a year</option>
+                    </select>
+                </div>
+
+
+                <div class="field">
+                    <label for="hours">
+                        Hours together each time
+                    </label>
+
+                    <input
+                        type="number"
+                        id="hours"
+                        min="0.1"
+                        step="0.5"
+                        value="4"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- Custom frequency -->
+            <div class="custom-frequency">
+
+                <label class="checkbox-row">
+                    <input type="checkbox" id="customFrequencyToggle">
+
+                    <span>Use my own frequency</span>
+                </label>
+
+                <div
+                    class="custom-frequency-input hidden"
+                    id="customFrequencyBox"
+                >
+
+                    <div class="field">
+                        <label for="customFrequency">
+                            Times per year
+                        </label>
+
+                        <input
+                            type="number"
+                            id="customFrequency"
+                            min="0"
+                            step="0.5"
+                            value="12"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Calculate -->
+            <button class="calculate-btn" id="calculateBtn">
+                Calculate my moments
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- Results -->
+        <section class="results hidden" id="results">
+
+            <div class="result-intro">
+                <span class="eyebrow">YOUR TIME TOGETHER</span>
+
+                <h2 id="resultTitle">
+                    Your remaining moments
+                </h2>
+
+                <p id="resultSubtitle">
+                    Here's what your current rhythm adds up to.
+                </p>
+            </div>
+
+
+            <!-- Main number -->
+            <div class="main-result">
+
+                <div class="result-number" id="remainingMeetings">
+                    0
+                </div>
+
+                <div class="result-label">
+                    estimated moments together
+                </div>
+
+            </div>
+
+
+            <!-- Cards -->
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <span class="card-label">
+                        TIME TOGETHER
+                    </span>
+
+                    <strong id="remainingHours">
+                        0
+                    </strong>
+
+                    <small>hours</small>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span class="card-label">
+                        IN DAYS
+                    </span>
+
+                    <strong id="remainingDays">
+                        0
+                    </strong>
+
+                    <small>24-hour days</small>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span class="card-label">
+                        YEARS
+                    </span>
+
+                    <strong id="remainingYears">
+                        0
+                    </strong>
+
+                    <small>in the window</small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Visualization -->
+            <div class="visualization">
+
+                <div class="visual-header">
+
+                    <div>
+                        <span class="card-label">
+                            YOUR TIME, VISUALIZED
+                        </span>
+
+                        <h3>
+                            Every dot represents one meeting.
+                        </h3>
+                    </div>
+
+                    <span id="dotCountLabel">
+                        0 moments
+                    </span>
+
+                </div>
+
+                <div
+                    class="dots"
+                    id="dots"
+                    aria-label="Visual representation of remaining moments"
+                ></div>
+
+            </div>
+
+
+            <!-- Reflection -->
+            <div class="reflection">
+
+                <div class="quote-mark">“</div>
+
+                <p id="reflectionText">
+                    The number isn't meant to scare you.
+                    It's meant to make the invisible visible.
+                </p>
+
+            </div>
+
+
+            <!-- What if -->
+            <div class="what-if">
+
+                <div class="section-heading">
+                    <span>03</span>
+                    <h2>What if you met more often?</h2>
+                </div>
+
+                <p>
+                    Small changes in frequency can create a surprisingly
+                    large difference over many years.
+                </p>
+
+
+                <div class="slider-container">
+
+                    <div class="slider-labels">
+
+                        <span>
+                            <strong id="sliderFrequency">
+                                12
+                            </strong>
+                            times/year
+                        </span>
+
+                        <span>
+                            <strong id="sliderMeetings">
+                                0
+                            </strong>
+                            moments
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="frequencySlider"
+                        min="1"
+                        max="365"
+                        value="12"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Save -->
+            <div class="actions">
+
+                <button
+                    class="secondary-btn"
+                    id="saveBtn"
+                >
+                    Save this person
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    id="resetBtn"
+                >
+                    Start over
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Saved People -->
+        <section
+            class="saved-section hidden"
+            id="savedSection"
+        >
+
+            <div class="section-heading">
+                <span>04</span>
+                <h2>People you're thinking about</h2>
+            </div>
+
+            <div id="savedPeople"></div>
+
+        </section>
+
+
+        <footer>
+            <p>
+                A simple reflection tool about finite time.
+            </p>
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
